@@ -7,10 +7,6 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
-if (!API_KEY) {
-  console.error("Missing OPENWEATHERMAP_API_KEY in environment");
-  process.exit(1);
-}
 
 const server = new McpServer({ name: "openweather-ts", version: "0.1.0" });
 
@@ -26,9 +22,10 @@ const commonSchema = z
     message: "Provide city or both lat and lon",
   });
 
-type CommonArgs = z.infer<typeof commonSchema>;
+export type CommonArgs = z.infer<typeof commonSchema>;
 
-async function buildParams(args: CommonArgs, exclude?: string) {
+export async function buildParams(args: CommonArgs, exclude?: string) {
+  commonSchema.parse(args);
   const params: Record<string, string> = {
     units: args.units ?? "metric",
     appid: API_KEY!,
@@ -82,8 +79,14 @@ server.registerTool(
   getAlerts as any
 );
 
+if (!API_KEY) {
+  console.error("Missing OPENWEATHERMAP_API_KEY in environment");
+  process.exit(1);
+}
+
 const currentFile = fileURLToPath(import.meta.url);
 const invokedFile = path.resolve(process.argv[1]);
+
 if (currentFile === invokedFile) {
   const transport = new StdioServerTransport();
   await server.connect(transport);
