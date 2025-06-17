@@ -49,7 +49,7 @@ async function callApi(endpoint: string, params: Record<string, string>) {
 
 async function getCurrentWeather(args: CommonArgs) {
   const params = await buildParams(args);
-  return callApi("https://api.openweathermap.org/data/2.5/weather", params);
+  return callApi("https://api.openweathermap.org/data/3.0/weather", params);
 }
 
 async function getForecast(args: CommonArgs) {
