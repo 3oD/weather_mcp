@@ -30,3 +30,13 @@ Then in Open WebUI go to **Settings ▸ Tools ▸ Add OpenAPI Server** and enter
 http://localhost:8080
 ```
 
+## Docker
+
+Build the container image locally:
+```bash
+docker build -t weather-mcp .
+```
+The Dockerfile now performs a multi-stage build to install development
+dependencies only during the build phase and keep the final runtime image
+lightweight.
+
