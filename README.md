@@ -38,6 +38,6 @@ Build the container image locally:
 docker build -t weather-mcp .
 ```
 The Dockerfile now performs a multi-stage build to install development
-dependencies only during the build phase and keep the final runtime image
+dependencies only during the build phase while keeping the final runtime image
 lightweight.
 
