@@ -12,7 +12,7 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json* ./
 RUN npm ci --omit=dev && npm cache clean --force \
     && apt-get update && apt-get install -y --no-install-recommends python3 python3-pip \
-    && pip3 install --no-cache-dir mcpo \
+    && pip3 install --no-cache-dir --break-system-packages mcpo \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/dist ./dist
 ENTRYPOINT ["mcpo"]

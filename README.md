@@ -21,7 +21,9 @@ Simple MCP server wrapping OpenWeatherMap.
 
 ## Open WebUI
 
-Run the proxy and server together (from the `docker` directory):
+Run the proxy and server together using Docker Compose
+(from the `docker` directory). Compose will build the
+container from the included `Dockerfile`:
 ```bash
 cd docker
 docker compose up -d

@@ -1,10 +1,6 @@
 services:
-  mcpo:
-    image: ghcr.io/open-webui/mcpo:latest
-    command: ["--port", "8080", "--", "node", "/app/dist/server.js"]
+  mcp:
+    build: ..
     env_file: ../.env
-    volumes:
-      - ..:/app:ro
     ports:
       - "8080:8080"
-
