@@ -21,8 +21,9 @@ Simple MCP server wrapping OpenWeatherMap.
 
 ## Open WebUI
 
-Run the proxy and server together:
+Run the proxy and server together (from the `docker` directory):
 ```bash
+cd docker
 docker compose up -d
 ```
 Then in Open WebUI go to **Settings ▸ Tools ▸ Add OpenAPI Server** and enter:
