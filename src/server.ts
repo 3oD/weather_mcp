@@ -48,17 +48,58 @@ async function callApi(endpoint: string, params: Record<string, string>) {
 
 async function getCurrentWeather(args: CommonArgs) {
   const params = await buildParams(args);
-  return callApi("https://api.openweathermap.org/data/3.0/weather", params);
+  const data = await callApi("https://api.openweathermap.org/data/2.5/weather", params);
+  
+  return {
+    content: [
+      {
+        type: "text",
+        text: JSON.stringify(data, null, 2)
+      }
+    ]
+  };
 }
 
 async function getForecast(args: CommonArgs) {
-  const params = await buildParams(args, "current,minutely,alerts");
-  return callApi("https://api.openweathermap.org/data/3.0/onecall", params);
+  const params = await buildParams(args);
+  const data = await callApi("https://api.openweathermap.org/data/2.5/forecast", params);
+  
+  return {
+    content: [
+      {
+        type: "text", 
+        text: JSON.stringify(data, null, 2)
+      }
+    ]
+  };
 }
 
 async function getAlerts(args: CommonArgs) {
-  const params = await buildParams(args, "current,minutely,hourly,daily");
-  return callApi("https://api.openweathermap.org/data/3.0/onecall", params);
+  // For free accounts, we'll use the current weather endpoint and check for alerts in the response
+  const params = await buildParams(args);
+  const data = await callApi("https://api.openweathermap.org/data/2.5/weather", params) as any;
+  
+  // Extract relevant alert-like information from current weather
+  const alertInfo = {
+    location: data.name,
+    country: data.sys?.country,
+    conditions: data.weather?.[0]?.description,
+    temperature: data.main?.temp,
+    humidity: data.main?.humidity,
+    pressure: data.main?.pressure,
+    windSpeed: data.wind?.speed,
+    visibility: data.visibility,
+    timestamp: new Date(data.dt * 1000).toISOString()
+  };
+  
+  return {
+    content: [
+      {
+        type: "text",
+        text: `Weather Alert Information for ${alertInfo.location}:\n\n${JSON.stringify(alertInfo, null, 2)}\n\nNote: This is current weather data. For actual weather alerts, a paid API subscription is required.`
+      }
+    ]
+  };
 }
 
 server.registerTool(
