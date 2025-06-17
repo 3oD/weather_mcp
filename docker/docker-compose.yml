@@ -1,0 +1,12 @@
+services:
+  mcp:
+    build: ..
+    env_file: ../.env
+  mcpo:
+    image: ghcr.io/open-webui/mcpo:latest
+    command: ["--port","8080","--","node","/app/dist/server.js"]
+    depends_on:
+      - mcp
+    ports:
+      - "8080:8080"
+
