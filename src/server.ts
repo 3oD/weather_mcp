@@ -3,6 +3,8 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { request } from "undici";
 import "dotenv/config";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 if (!API_KEY) {
@@ -80,7 +82,9 @@ server.registerTool(
   getAlerts as any
 );
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const currentFile = fileURLToPath(import.meta.url);
+const invokedFile = path.resolve(process.argv[1]);
+if (currentFile === invokedFile) {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
