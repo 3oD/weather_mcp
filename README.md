@@ -33,11 +33,14 @@ http://localhost:8080
 
 ## Docker
 
-Build the container image locally:
+Build the container image locally (this image now includes the `mcpo` proxy):
 ```bash
 docker build -t weather-mcp .
 ```
-The Dockerfile now performs a multi-stage build to install development
-dependencies only during the build phase while keeping the final runtime image
-lightweight.
+Run the server via Docker:
+```bash
+docker run -p 8080:8080 --env-file .env weather-mcp
+```
+The Dockerfile performs a multi-stage build to install development dependencies
+only during the build phase while keeping the final runtime image lightweight.
 
