@@ -1,10 +1,22 @@
 # weather-mcp
 
-Simple MCP server wrapping OpenWeatherMap.
+Weather MCP server using OpenWeatherMap One Call API 3.0 with OpenStreetMap geocoding.
+
+## Features
+
+- **Comprehensive Weather Data**: Uses OpenWeatherMap One Call API 3.0 for complete weather information
+- **Automatic Geocoding**: Converts city names to coordinates using OpenStreetMap's Nominatim API
+- **Multiple Endpoints**:
+  - Current weather with hourly and daily forecasts
+  - 48-hour hourly forecasts
+  - 8-day daily forecasts  
+  - Weather alerts (when available)
 
 ## Quick Start
 
 1. Copy `.env.example` to `.env` and set your `OPENWEATHERMAP_API_KEY`.
+   - **Note**: One Call API 3.0 requires a paid OpenWeatherMap subscription
+   - Get your API key from: https://openweathermap.org/api
 2. Install dependencies with `npm install`.
 3. Run in development mode:
    ```bash
@@ -18,6 +30,18 @@ Simple MCP server wrapping OpenWeatherMap.
    ```bash
    npm start
    ```
+
+## API Usage
+
+The server provides city name support through automatic geocoding:
+
+```typescript
+// Using city name (automatically geocoded)
+await getCurrentWeather({ city: "London" });
+
+// Using coordinates directly  
+await getCurrentWeather({ lat: 51.5074, lon: -0.1278 });
+```
 
 ## Open WebUI
 
